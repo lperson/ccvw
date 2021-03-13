@@ -3,13 +3,13 @@ import re
 import time
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
-from os import linesep, getenv
+from os import getenv, linesep
 from typing import List, Optional, Union
 
 import redis
 from bs4 import BeautifulSoup
 from dataclasses_json import config, dataclass_json
-from dotenv import load_dotenv, find_dotenv
+from dotenv import find_dotenv, load_dotenv
 from marshmallow import fields
 from pythonjsonlogger import jsonlogger
 from retry_requests import retry
@@ -195,10 +195,10 @@ def send_alerts_and_update_cache(clinics_data: List[ClinicData]) -> None:
                 logger.error("Exception sending DOWN alert", exc_info=True)
 
     for name in names_in_redis:
-        alert = f"{clinic_data.name} removed from search results. No appointments available now."
+        alert = f"{name} removed from search results. No appointments available now."
         try:
             send_alert(alert)
-            r.hdel(REDIS_KEY, name)
+            r.hdel(REDIS_KEY, str(name))
         except Exception:
             logger.error("Exception sending REMOVED alert", exc_info=True)
 
