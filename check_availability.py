@@ -4,7 +4,7 @@ import time
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from os import linesep, getenv
-from typing import List, Optional
+from typing import List, Optional, Union
 
 import redis
 from bs4 import BeautifulSoup
@@ -42,6 +42,7 @@ DOWN_THRESHOLD = int(getenv("DOWN_THRESHOLD") or 5)
 UP_THRESHOLD = int(getenv("UP_THRESHOLD") or 25)
 ALERT_INTERVAL_MINUTES = int(getenv("ALERT_INTERVAL_MINUTES ") or 60)
 SLEEP_INTERVAL_SECONDS = int(getenv("SLEEP_INTERVAL_SECONDS ") or 120)
+REDIS_URL = getenv("DATABASE_URL")
 
 
 @dataclass_json
@@ -140,7 +141,12 @@ def update_cache(r, cache_entry, clinic_data):
 
 
 def send_alerts_and_update_cache(clinics_data: List[ClinicData]) -> None:
-    r = redis.Redis(host=REDIS_HOST, port=REDIS_PORT, decode_responses=True)
+    r: Union[redis.Redis[str], redis.Redis[bytes]]
+    if REDIS_URL:
+        r = redis.Redis.from_url(REDIS_URL, decode_responses=True)
+    else:
+        r = redis.Redis(host=REDIS_HOST, port=REDIS_PORT, decode_responses=True)
+
     names_in_redis = set(r.hkeys(REDIS_KEY))
 
     for clinic_data in clinics_data:
