@@ -1,0 +1,26 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+black = "*"
+isort = "*"
+flake8 = "*"
+mypy = "*"
+mypy-extensions = "*"
+requests = "*"
+beautifulsoup4 = "*"
+redis = "*"
+dataclasses-json = "*"
+python-json-logger = "*"
+retry-requests = "*"
+python-dotenv = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.8.1"
+
+[pipenv]
+allow_prereleases = true
