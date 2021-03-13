@@ -1,1 +1,1 @@
-python check_availability.py
+worker: python check_availability.py
