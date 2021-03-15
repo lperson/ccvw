@@ -49,6 +49,8 @@ opt in flow:
 
 VERIFY_TOKEN = "32912933-981d-4002-bf45-c4b491686385"
 FACEBOOK_PAGE_TOKEN = getenv("FACEBOOK_PAGE_TOKEN")
+WEB_HOST = getenv("WEB_HOST")
+WEB_PORT = getenv("WEB_PORT")
 
 
 @app.route("/hello_from_messenger", methods=["GET"])
@@ -128,4 +130,4 @@ def index():
 
 
 if __name__ == "__main__":
-    app.run(port=9000)
+    app.run(host=WEB_HOST port=WEB_PORT)
