@@ -17,6 +17,7 @@ python-json-logger = "*"
 retry-requests = "*"
 python-dotenv = "*"
 flask = "*"
+pymongo = "*"
 
 [dev-packages]
 
