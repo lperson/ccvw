@@ -130,4 +130,4 @@ def index():
 
 
 if __name__ == "__main__":
-    app.run(host=WEB_HOST port=WEB_PORT)
+    app.run(host=WEB_HOST, port=WEB_PORT)
