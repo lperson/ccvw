@@ -52,7 +52,7 @@ FACEBOOK_PAGE_TOKEN = getenv("FACEBOOK_PAGE_TOKEN")
 
 
 @app.route("/hello_from_messenger", methods=["GET"])
-def hello():
+def facebook_get_webhook():
     mode = request.args.get("hub.mode")
     token = request.args.get("hub.verify_token")
     challenge = request.args.get("hub.challenge")
@@ -108,7 +108,7 @@ def respond_to_message(received_message):
 
 
 @app.route("/hello_from_messenger", methods=["post"])
-def posted():
+def facebook_post_webhook():
     message = request.get_json()
     entries = message.get("entry", [])
     for entry in entries:
@@ -120,6 +120,11 @@ def posted():
                 print(messaging)
                 respond_to_message(ReceivedMessage(sender, text))
     return "yo"
+
+
+@app.route("/")
+def index():
+    return "Five o'clock and all's well"
 
 
 if __name__ == "__main__":
